@@ -1,0 +1,16 @@
+{
+  "name": "account-book-react",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/jewook3617/account-book-react.git",
+  "author": "jewook3617 <jewook3617@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^18.7.23",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^4.8.4"
+  }
+}
