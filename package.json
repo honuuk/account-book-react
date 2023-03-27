@@ -9,7 +9,6 @@
     "dev": "webpack serve"
   },
   "dependencies": {
-    "@mui/material": "^5.10.7",
     "@types/node": "^18.7.23",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
