@@ -1,0 +1,8 @@
+.MuiTextField-root > div {
+  width: 150px;
+}
+
+.MuiTextField-root > div > input {
+  padding: 12px 16px;
+	-webkit-text-fill-color: #3D3D3D !important;
+}
