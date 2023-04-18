@@ -98,7 +98,6 @@ body {
 
 .content {
 	width: 800px;
-	border: 1px solid black;
 	margin: 0 auto;
 	padding-top: 32px;
 	min-height: calc(100vh - 66px);
