@@ -45,35 +45,79 @@ const Home: React.FC<Props> = () => {
         </Tabs>
       </Box>
       <Box>
-        <TableContainer sx={{ marginTop: "32px" }} component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableContainer
+          sx={{ marginTop: "32px", maxWidth: 930, overflowX: "auto" }}
+          component={Paper}
+        >
+          <Table sx={{ minWidth: 930 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>생활비 (식비 + 생필품)</TableCell>
-                <TableCell>외식비 (배달 포함)</TableCell>
-                <TableCell>가족비</TableCell>
-                <TableCell>친구비</TableCell>
-                <TableCell>교통비</TableCell>
-                <TableCell>건강비</TableCell>
-                <TableCell>기타</TableCell>
+                <TableCell sx={{ width: 100, textAlign: "center" }}>
+                  생활비
+                </TableCell>
+                <TableCell sx={{ width: 100, textAlign: "center" }}>
+                  외식비
+                </TableCell>
+                <TableCell sx={{ width: 100, textAlign: "center" }}>
+                  가족비
+                </TableCell>
+                <TableCell sx={{ width: 100, textAlign: "center" }}>
+                  친구비
+                </TableCell>
+                <TableCell sx={{ width: 100, textAlign: "center" }}>
+                  교통비
+                </TableCell>
+                <TableCell sx={{ width: 100, textAlign: "center" }}>
+                  건강비
+                </TableCell>
+                <TableCell sx={{ width: 100, textAlign: "center" }}>
+                  기타
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell component="td" scope="row">
                   <SpendingRecord
                     detail="장보기"
                     price={23000}
                     category="card"
                   />
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell component="td" scope="row">
                   <SpendingRecord detail="외식" price={20000} category="cash" />
                 </TableCell>
-                <TableCell component="th" scope="row"></TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell component="td" scope="row">
+                  <SpendingRecord
+                    detail="약속"
+                    price={30000}
+                    category="welfare"
+                  />
+                </TableCell>
+                <TableCell component="td" scope="row">
+                  <SpendingRecord
+                    detail="약속"
+                    price={30000}
+                    category="welfare"
+                  />
+                </TableCell>
+                <TableCell component="td" scope="row">
+                  <SpendingRecord
+                    detail="약속"
+                    price={30000}
+                    category="welfare"
+                  />
+                </TableCell>
+                <TableCell component="td" scope="row">
+                  <SpendingRecord
+                    detail="약속"
+                    price={30000}
+                    category="welfare"
+                  />
+                </TableCell>
+                <TableCell component="td" scope="row">
                   <SpendingRecord
                     detail="약속"
                     price={30000}

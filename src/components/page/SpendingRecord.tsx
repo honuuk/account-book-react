@@ -39,7 +39,7 @@ const SpendingRecord: React.FC<Props> = ({ detail, price, category }) => {
       badgeContent={categoryMap[category].badgeContent}
       color={categoryMap[category].color}
     >
-      <Card sx={{ cursor: "pointer" }} onClick={() => alert("hi")}>
+      <Card sx={{ cursor: "pointer", width: 100 }} onClick={() => alert("hi")}>
         <CardContent sx={{ paddingBottom: "16px !important" }}>
           <Typography sx={{ fontSize: "14px" }}>{detail}</Typography>
           <Typography>₩{price.toLocaleString()}</Typography>
