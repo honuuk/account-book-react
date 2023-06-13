@@ -2,7 +2,6 @@ import { useState } from "react";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers";
 
-import "./home.css";
 import {
   Box,
   Paper,
@@ -15,7 +14,10 @@ import {
   TableRow,
   Tabs,
 } from "@mui/material";
+
 import SpendingRecord from "../components/page/SpendingRecord";
+import AddRecord from "../components/page/AddRecord";
+import "./home.css";
 
 interface Props {}
 
@@ -46,7 +48,12 @@ const Home: React.FC<Props> = () => {
       </Box>
       <Box>
         <TableContainer
-          sx={{ marginTop: "32px", maxWidth: 930, overflowX: "auto" }}
+          sx={{
+            marginTop: "32px",
+            minHeight: 500,
+            maxWidth: 930,
+            overflowX: "auto",
+          }}
           component={Paper}
         >
           <Table sx={{ minWidth: 930 }} aria-label="simple table">
@@ -129,6 +136,7 @@ const Home: React.FC<Props> = () => {
           </Table>
         </TableContainer>
       </Box>
+      <AddRecord />
     </>
   );
 };

@@ -6,3 +6,21 @@
   padding: 12px 16px;
 	-webkit-text-fill-color: #3D3D3D !important;
 }
+
+.add_record_button {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  position: absolute; 
+  right: 10%; 
+  bottom: 128px;
+  background-color: #1976d2;
+  cursor: pointer;
+  color: #fff;
+  border: 0;
+  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12);
+}
+
+.add_record_button:hover {
+  background-color: #1565c0;
+}
