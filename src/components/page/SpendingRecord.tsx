@@ -7,7 +7,7 @@ import {
   styled,
 } from "@mui/material";
 
-import { SpendingCategory } from "../../types";
+import { SpendingType } from "../../types";
 
 const StyledBadge = styled(Badge)<BadgeProps>(() => ({
   "& .MuiBadge-badge": {
@@ -18,10 +18,7 @@ const StyledBadge = styled(Badge)<BadgeProps>(() => ({
   },
 }));
 
-const categoryMap: Record<
-  SpendingCategory,
-  { badgeContent: string; color: any }
-> = {
+const typeMap: Record<SpendingType, { badgeContent: string; color: any }> = {
   card: { badgeContent: "카드", color: "success" },
   cash: { badgeContent: "현금", color: "warning" },
   welfare: { badgeContent: "복지", color: "info" },
@@ -30,14 +27,14 @@ const categoryMap: Record<
 interface Props {
   detail: string;
   price: number;
-  category: SpendingCategory;
+  type: SpendingType;
 }
 
-const SpendingRecord: React.FC<Props> = ({ detail, price, category }) => {
+const SpendingRecord: React.FC<Props> = ({ detail, price, type }) => {
   return (
     <StyledBadge
-      badgeContent={categoryMap[category].badgeContent}
-      color={categoryMap[category].color}
+      badgeContent={typeMap[type].badgeContent}
+      color={typeMap[type].color}
     >
       <Card sx={{ cursor: "pointer", width: 100 }}>
         <CardContent sx={{ paddingBottom: "16px !important" }}>

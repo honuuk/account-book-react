@@ -23,6 +23,11 @@ input[type="number"]{
     width:160px;
 }
 
+select {
+    width: 120px;
+    height: 24px;
+}
+
 
 .inputBox{
     margin:12px;

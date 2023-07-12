@@ -18,8 +18,61 @@ import {
 import SpendingRecord from "../components/page/SpendingRecord";
 import AddRecord from "../components/page/AddRecord";
 import "./home.css";
+import { Record } from "../types";
 
 interface Props {}
+
+const data: Record[] = [
+  {
+    title: "장보기",
+    category: "living",
+    type: "card",
+    price: 23000,
+    description: "",
+  },
+  {
+    title: "외식",
+    category: "eat out",
+    type: "cash",
+    price: 20000,
+    description: "",
+  },
+  {
+    title: "약속",
+    category: "family",
+    type: "welfare",
+    price: 30000,
+    description: "",
+  },
+  {
+    title: "약속",
+    category: "friend",
+    type: "welfare",
+    price: 30000,
+    description: "",
+  },
+  {
+    title: "약속",
+    category: "transport",
+    type: "welfare",
+    price: 30000,
+    description: "",
+  },
+  {
+    title: "약속",
+    category: "health",
+    type: "welfare",
+    price: 30000,
+    description: "",
+  },
+  {
+    title: "약속",
+    category: "etc",
+    type: "welfare",
+    price: 30000,
+    description: "",
+  },
+];
 
 const Home: React.FC<Props> = () => {
   const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs>(dayjs());
@@ -87,49 +140,25 @@ const Home: React.FC<Props> = () => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="td" scope="row">
-                  <SpendingRecord
-                    detail="장보기"
-                    price={23000}
-                    category="card"
-                  />
+                  <SpendingRecord detail="장보기" price={23000} type="card" />
                 </TableCell>
                 <TableCell component="td" scope="row">
-                  <SpendingRecord detail="외식" price={20000} category="cash" />
+                  <SpendingRecord detail="외식" price={20000} type="cash" />
                 </TableCell>
                 <TableCell component="td" scope="row">
-                  <SpendingRecord
-                    detail="약속"
-                    price={30000}
-                    category="welfare"
-                  />
+                  <SpendingRecord detail="약속" price={30000} type="welfare" />
                 </TableCell>
                 <TableCell component="td" scope="row">
-                  <SpendingRecord
-                    detail="약속"
-                    price={30000}
-                    category="welfare"
-                  />
+                  <SpendingRecord detail="약속" price={30000} type="welfare" />
                 </TableCell>
                 <TableCell component="td" scope="row">
-                  <SpendingRecord
-                    detail="약속"
-                    price={30000}
-                    category="welfare"
-                  />
+                  <SpendingRecord detail="약속" price={30000} type="welfare" />
                 </TableCell>
                 <TableCell component="td" scope="row">
-                  <SpendingRecord
-                    detail="약속"
-                    price={30000}
-                    category="welfare"
-                  />
+                  <SpendingRecord detail="약속" price={30000} type="welfare" />
                 </TableCell>
                 <TableCell component="td" scope="row">
-                  <SpendingRecord
-                    detail="약속"
-                    price={30000}
-                    category="welfare"
-                  />
+                  <SpendingRecord detail="약속" price={30000} type="welfare" />
                 </TableCell>
               </TableRow>
             </TableBody>

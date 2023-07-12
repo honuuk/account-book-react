@@ -1,20 +1,14 @@
 import { Dialog } from "@mui/material";
 import { useForm } from "react-hook-form";
 
-import { SpendingCategory } from "../../types";
+import { Record } from "../../types";
 
 import "./Dialog.css";
 
-interface FormValues {
-  title: string;
-  category: SpendingCategory;
-  price: number;
-  description: string;
-}
-
-const DefaultValues: FormValues = {
+const DefaultValues: Record = {
   title: "",
-  category: "card",
+  type: "card",
+  category: "living",
   price: 0,
   description: "",
 };
@@ -22,7 +16,7 @@ const DefaultValues: FormValues = {
 interface Props {
   close: () => void;
   opened: boolean;
-  initialValues?: FormValues;
+  initialValues?: Record;
 }
 
 const Comp: React.FC<Props> = ({ opened, close, initialValues }) => {
@@ -58,25 +52,27 @@ const Comp: React.FC<Props> = ({ opened, close, initialValues }) => {
         </div>
         <div className="inputBox">
           <span>지출 카테고리 : </span>
-          <input
-            type="radio"
-            id="card"
-            value="card"
-            {...register("category")}
-          />
+          <select {...register("category")}>
+            <option value="living">생활비</option>
+            <option value="eat out">외식빅</option>
+            <option value="family">가족비</option>
+            <option value="friend">친구비</option>
+            <option value="transport">교통비</option>
+            <option value="health">건강비</option>
+            <option value="etc">기타</option>
+          </select>
+        </div>
+        <div className="inputBox">
+          <span>지출 타입 : </span>
+          <input type="radio" id="card" value="card" {...register("type")} />
           <label htmlFor="card">카드</label>
-          <input
-            type="radio"
-            id="cash"
-            value="cash"
-            {...register("category")}
-          />
+          <input type="radio" id="cash" value="cash" {...register("type")} />
           <label htmlFor="cash">현금</label>
           <input
             type="radio"
             id="welfare"
             value="welfare"
-            {...register("category")}
+            {...register("type")}
           />
           <label htmlFor="welfare">복지</label>
         </div>
