@@ -1,0 +1,58 @@
+
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper{
+    padding:30px 100px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input{
+    padding:3px;
+    border:none;
+    border-bottom:1.5px solid rgb(43, 88, 172);
+}
+
+input[type="text"]{
+    width:160px;
+}
+
+input[type="number"]{
+    width:160px;
+}
+
+
+.inputBox{
+    margin:12px;
+}
+
+.inputBox span{
+    font-size: 14px;
+}
+
+.inputBox label{
+    font-size:14px;
+}
+
+.saveButton{
+    background-color:dodgerblue;
+    color:white;
+    width: 100px;
+    padding: 8px 0;
+    margin: 20px auto 0;
+    border:none;
+    margin-left: 16px;
+    cursor: pointer;
+}
+.cancelButton {
+    border:1px solid dodgerblue;
+    background-color: #fff;
+    color:dodgerblue;
+    width: 100px;
+    padding: 8px 0;
+    margin: 20px auto 0;
+    margin-left: 16px;
+    cursor: pointer;
+}

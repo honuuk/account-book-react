@@ -1,46 +1,17 @@
-.css-1t1j96h-MuiPaper-root-MuiDialog-paper{
-    padding:30px 100px;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input{
-    padding:3px;
-    border:none;
-    border-bottom:1.5px solid rgb(43, 88, 172);
-}
-
-input[type="text"]{
-    width:160px;
-}
-
-input[type="number"]{
-    width:160px;
-}
-
-
-.inputBox{
-    margin:12px;
-}
-
-.inputBox text{
-    font-size: 14px;
-}
-
-.inputBox label{
-    font-size:14px;
-}
-
-.inputBotton{
-    background-color:dodgerblue;
-    color:white;
-    width: 100px;
-    padding: 8px 0;
-    margin: 20px auto 0;
-    border:none;
+.add_record_button {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    position: absolute; 
+    right: 10%; 
+    bottom: 128px;
+    background-color: #1976d2;
     cursor: pointer;
+    color: #fff;
+    border: 0;
+    box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12);
+}
+  
+.add_record_button:hover {
+    background-color: #1565c0;
 }
