@@ -8,7 +8,7 @@ export type SpendingCategory =
   | "etc";
 export type SpendingType = "card" | "cash" | "welfare";
 
-export interface Record {
+export interface RecordData {
   title: string;
   category: SpendingCategory;
   type: SpendingType;

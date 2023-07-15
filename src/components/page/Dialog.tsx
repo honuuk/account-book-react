@@ -1,11 +1,11 @@
 import { Dialog } from "@mui/material";
 import { useForm } from "react-hook-form";
 
-import { Record } from "../../types";
+import { RecordData } from "../../types";
 
 import "./Dialog.css";
 
-const DefaultValues: Record = {
+const DefaultValues: RecordData = {
   title: "",
   type: "card",
   category: "living",
@@ -16,7 +16,7 @@ const DefaultValues: Record = {
 interface Props {
   close: () => void;
   opened: boolean;
-  initialValues?: Record;
+  initialValues?: RecordData;
 }
 
 const Comp: React.FC<Props> = ({ opened, close, initialValues }) => {

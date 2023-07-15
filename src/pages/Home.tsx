@@ -18,11 +18,21 @@ import {
 import SpendingRecord from "../components/page/SpendingRecord";
 import AddRecord from "../components/page/AddRecord";
 import "./home.css";
-import { Record } from "../types";
+import { RecordData, SpendingCategory } from "../types";
 
 interface Props {}
 
-const data: Record[] = [
+const indexMap: Record<SpendingCategory, number> = {
+  living: 0,
+  "eat out": 1,
+  family: 2,
+  friend: 3,
+  transport: 4,
+  health: 5,
+  etc: 6,
+};
+
+const data: RecordData[] = [
   {
     title: "장보기",
     category: "living",
@@ -53,6 +63,13 @@ const data: Record[] = [
   },
   {
     title: "약속",
+    category: "eat out",
+    type: "welfare",
+    price: 30000,
+    description: "",
+  },
+  {
+    title: "약속",
     category: "transport",
     type: "welfare",
     price: 30000,
@@ -73,6 +90,18 @@ const data: Record[] = [
     description: "",
   },
 ];
+
+const dataToRows = (data: RecordData[]): RecordData[][] => {
+  const categorizedRecords: RecordData[][] = [[], [], [], [], [], [], []];
+  data.forEach((record) =>
+    categorizedRecords[indexMap[record.category]].push(record)
+  );
+
+  const rows = categorizedRecords[1].map((_, index) =>
+    categorizedRecords.map((row) => row[index]).filter(Boolean)
+  );
+  return rows;
+};
 
 const Home: React.FC<Props> = () => {
   const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs>(dayjs());
