@@ -17,6 +17,7 @@ import {
 
 import SpendingRecord from "../components/page/SpendingRecord";
 import AddRecord from "../components/page/AddRecord";
+import Dialog from "../components/page/Dialog";
 import { RecordData, SpendingCategory } from "../types";
 
 import "./home.css";
@@ -109,6 +110,8 @@ const categories: SpendingCategory[] = [
 const Home: React.FC<Props> = () => {
   const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs>(dayjs());
   const [tabIndex, setTabIndex] = useState<number>(0);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [selectedRecord, setSelectedRecord] = useState<RecordData>();
 
   const categorizedRecords = useMemo(
     () =>
@@ -119,12 +122,11 @@ const Home: React.FC<Props> = () => {
       }, {} as Record<SpendingCategory, RecordData[]>),
     [data]
   );
-  console.log(categorizedRecords);
 
-  const handleTabClick = (
-    e: React.SyntheticEvent<Element, Event>,
-    index: number
-  ) => setTabIndex(index);
+  const handleRecordClick = (record: RecordData) => () => {
+    setSelectedRecord(record);
+    setIsOpen(true);
+  };
 
   return (
     <>
@@ -137,7 +139,7 @@ const Home: React.FC<Props> = () => {
         slotProps={{ textField: { disabled: true } }}
       />
       <Box sx={{ borderBottom: 1, borderColor: "divider", marginTop: "16px" }}>
-        <Tabs value={tabIndex} onChange={handleTabClick}>
+        <Tabs value={tabIndex} onChange={() => ""}>
           <Tab label="지출" />
           <Tab label="수입" disabled />
         </Tabs>
@@ -176,6 +178,7 @@ const Home: React.FC<Props> = () => {
                       component="td"
                       scope="row"
                       sx={{ borderBottom: "none" }}
+                      onClick={handleRecordClick(record)}
                     >
                       <SpendingRecord {...record} />
                     </TableCell>
@@ -187,6 +190,13 @@ const Home: React.FC<Props> = () => {
         </TableContainer>
       </Box>
       <AddRecord />
+      {isOpen && (
+        <Dialog
+          opened={isOpen}
+          close={() => setIsOpen(false)}
+          initialValues={selectedRecord}
+        />
+      )}
     </>
   );
 };
