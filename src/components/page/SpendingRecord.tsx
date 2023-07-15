@@ -25,12 +25,12 @@ const typeMap: Record<SpendingType, { badgeContent: string; color: any }> = {
 };
 
 interface Props {
-  detail: string;
+  title: string;
   price: number;
   type: SpendingType;
 }
 
-const SpendingRecord: React.FC<Props> = ({ detail, price, type }) => {
+const SpendingRecord: React.FC<Props> = ({ title, price, type }) => {
   return (
     <StyledBadge
       badgeContent={typeMap[type].badgeContent}
@@ -38,7 +38,7 @@ const SpendingRecord: React.FC<Props> = ({ detail, price, type }) => {
     >
       <Card sx={{ cursor: "pointer", width: 100 }}>
         <CardContent sx={{ paddingBottom: "16px !important" }}>
-          <Typography sx={{ fontSize: "14px" }}>{detail}</Typography>
+          <Typography sx={{ fontSize: "14px" }}>{title}</Typography>
           <Typography>₩{price.toLocaleString()}</Typography>
         </CardContent>
       </Card>

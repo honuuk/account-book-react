@@ -94,7 +94,7 @@ const Comp: React.FC<Props> = ({ opened, close, initialValues }) => {
           />
         </div>
         <button className="saveButton" type="submit">
-          추가
+          {initialValues ? "저장" : "추가"}
         </button>
         <button className="cancelButton" onClick={handleClose}>
           닫기
