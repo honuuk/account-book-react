@@ -5,6 +5,8 @@ export type SpendingCategory =
   | "friend"
   | "transport"
   | "health"
+  | "company"
+  | "leisure"
   | "etc";
 export type SpendingType = "card" | "cash" | "welfare";
 

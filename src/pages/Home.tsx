@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers";
 
@@ -17,19 +17,22 @@ import {
 
 import SpendingRecord from "../components/page/SpendingRecord";
 import AddRecord from "../components/page/AddRecord";
-import "./home.css";
 import { RecordData, SpendingCategory } from "../types";
+
+import "./home.css";
 
 interface Props {}
 
-const indexMap: Record<SpendingCategory, number> = {
-  living: 0,
-  "eat out": 1,
-  family: 2,
-  friend: 3,
-  transport: 4,
-  health: 5,
-  etc: 6,
+const categoryLabels: Record<SpendingCategory, string> = {
+  living: "생활비",
+  "eat out": "외식비",
+  family: "가족비",
+  friend: "친구비",
+  transport: "교통비",
+  health: "건강비",
+  company: "회사비",
+  leisure: "여가비",
+  etc: "기타",
 };
 
 const data: RecordData[] = [
@@ -91,21 +94,32 @@ const data: RecordData[] = [
   },
 ];
 
-const dataToRows = (data: RecordData[]): RecordData[][] => {
-  const categorizedRecords: RecordData[][] = [[], [], [], [], [], [], []];
-  data.forEach((record) =>
-    categorizedRecords[indexMap[record.category]].push(record)
-  );
-
-  const rows = categorizedRecords[1].map((_, index) =>
-    categorizedRecords.map((row) => row[index]).filter(Boolean)
-  );
-  return rows;
-};
+const categories: SpendingCategory[] = [
+  "living",
+  "eat out",
+  "family",
+  "friend",
+  "transport",
+  "health",
+  "company",
+  "leisure",
+  "etc",
+];
 
 const Home: React.FC<Props> = () => {
   const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs>(dayjs());
   const [tabIndex, setTabIndex] = useState<number>(0);
+
+  const categorizedRecords = useMemo(
+    () =>
+      data.reduce((acc, record) => {
+        if (acc[record.category]) acc[record.category].push(record);
+        else acc[record.category] = [record];
+        return acc;
+      }, {} as Record<SpendingCategory, RecordData[]>),
+    [data]
+  );
+  console.log(categorizedRecords);
 
   const handleTabClick = (
     e: React.SyntheticEvent<Element, Event>,
@@ -140,56 +154,34 @@ const Home: React.FC<Props> = () => {
         >
           <Table sx={{ minWidth: 930 }} aria-label="simple table">
             <TableHead>
-              <TableRow>
-                <TableCell sx={{ width: 100, textAlign: "center" }}>
-                  생활비
-                </TableCell>
-                <TableCell sx={{ width: 100, textAlign: "center" }}>
-                  외식비
-                </TableCell>
-                <TableCell sx={{ width: 100, textAlign: "center" }}>
-                  가족비
-                </TableCell>
-                <TableCell sx={{ width: 100, textAlign: "center" }}>
-                  친구비
-                </TableCell>
-                <TableCell sx={{ width: 100, textAlign: "center" }}>
-                  교통비
-                </TableCell>
-                <TableCell sx={{ width: 100, textAlign: "center" }}>
-                  건강비
-                </TableCell>
-                <TableCell sx={{ width: 100, textAlign: "center" }}>
-                  기타
-                </TableCell>
+              <TableRow sx={{ display: "flex" }}>
+                {categories.map((category) => (
+                  <TableCell sx={{ width: 100, textAlign: "center" }}>
+                    {categoryLabels[category]}
+                  </TableCell>
+                ))}
               </TableRow>
             </TableHead>
-            <TableBody>
-              <TableRow
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="td" scope="row">
-                  <SpendingRecord detail="장보기" price={23000} type="card" />
-                </TableCell>
-                <TableCell component="td" scope="row">
-                  <SpendingRecord detail="외식" price={20000} type="cash" />
-                </TableCell>
-                <TableCell component="td" scope="row">
-                  <SpendingRecord detail="약속" price={30000} type="welfare" />
-                </TableCell>
-                <TableCell component="td" scope="row">
-                  <SpendingRecord detail="약속" price={30000} type="welfare" />
-                </TableCell>
-                <TableCell component="td" scope="row">
-                  <SpendingRecord detail="약속" price={30000} type="welfare" />
-                </TableCell>
-                <TableCell component="td" scope="row">
-                  <SpendingRecord detail="약속" price={30000} type="welfare" />
-                </TableCell>
-                <TableCell component="td" scope="row">
-                  <SpendingRecord detail="약속" price={30000} type="welfare" />
-                </TableCell>
-              </TableRow>
+            <TableBody sx={{ display: "flex" }}>
+              {categories.map((category) => (
+                <TableRow
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  {categorizedRecords[category]?.map((record) => (
+                    <TableCell
+                      component="td"
+                      scope="row"
+                      sx={{ borderBottom: "none" }}
+                    >
+                      <SpendingRecord {...record} />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
