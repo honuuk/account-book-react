@@ -7,7 +7,8 @@ import {
   styled,
 } from "@mui/material";
 
-import { SpendingType } from "../../types";
+import { SpendingType } from "../../../types";
+import styles from "./styles";
 
 const StyledBadge = styled(Badge)<BadgeProps>(() => ({
   "& .MuiBadge-badge": {
@@ -36,9 +37,9 @@ const SpendingRecord: React.FC<Props> = ({ title, price, type }) => {
       badgeContent={typeMap[type].badgeContent}
       color={typeMap[type].color}
     >
-      <Card sx={{ cursor: "pointer", width: 100 }}>
-        <CardContent sx={{ paddingBottom: "16px !important" }}>
-          <Typography sx={{ fontSize: "14px" }}>{title}</Typography>
+      <Card sx={styles.card}>
+        <CardContent sx={styles.cardContent}>
+          <Typography sx={styles.cardTitle}>{title}</Typography>
           <Typography>₩{price.toLocaleString()}</Typography>
         </CardContent>
       </Card>

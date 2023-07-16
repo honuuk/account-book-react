@@ -15,11 +15,12 @@ import {
   Tabs,
 } from "@mui/material";
 
-import SpendingRecord from "../components/page/SpendingRecord";
-import AddRecord from "../components/page/AddRecord";
-import Dialog from "../components/page/Dialog";
-import { RecordData, SpendingCategory } from "../types";
+import SpendingRecord from "../../components/page/SpendingRecord";
+import AddRecord from "../../components/page/AddRecord";
+import Dialog from "../../components/page/Dialog";
+import { RecordData, SpendingCategory } from "../../types";
 
+import styles from "./styles";
 import "./home.css";
 
 interface Props {}
@@ -138,46 +139,32 @@ const Home: React.FC<Props> = () => {
         format="YYYY-MM"
         slotProps={{ textField: { disabled: true } }}
       />
-      <Box sx={{ borderBottom: 1, borderColor: "divider", marginTop: "16px" }}>
+      <Box sx={styles.tabBox}>
         <Tabs value={tabIndex} onChange={() => ""}>
           <Tab label="지출" />
           <Tab label="수입" disabled />
         </Tabs>
       </Box>
       <Box>
-        <TableContainer
-          sx={{
-            marginTop: "32px",
-            minHeight: 500,
-            maxWidth: 930,
-            overflowX: "auto",
-          }}
-          component={Paper}
-        >
-          <Table sx={{ minWidth: 930 }} aria-label="simple table">
+        <TableContainer sx={styles.tableContainer} component={Paper}>
+          <Table sx={styles.table} aria-label="simple table">
             <TableHead>
-              <TableRow sx={{ display: "flex" }}>
+              <TableRow sx={styles.tableHeadRow}>
                 {categories.map((category) => (
-                  <TableCell sx={{ width: 100, textAlign: "center" }}>
+                  <TableCell sx={styles.tableHeadCell}>
                     {categoryLabels[category]}
                   </TableCell>
                 ))}
               </TableRow>
             </TableHead>
-            <TableBody sx={{ display: "flex" }}>
+            <TableBody sx={styles.tableBody}>
               {categories.map((category) => (
-                <TableRow
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
+                <TableRow sx={styles.tableBodyRow}>
                   {categorizedRecords[category]?.map((record) => (
                     <TableCell
                       component="td"
                       scope="row"
-                      sx={{ borderBottom: "none" }}
+                      sx={styles.tableBodyCell}
                       onClick={handleRecordClick(record)}
                     >
                       <SpendingRecord {...record} />

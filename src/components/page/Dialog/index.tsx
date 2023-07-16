@@ -1,7 +1,7 @@
 import { Dialog } from "@mui/material";
 import { useForm } from "react-hook-form";
 
-import { RecordData } from "../../types";
+import { RecordData } from "../../../types";
 
 import "./Dialog.css";
 
@@ -54,7 +54,7 @@ const Comp: React.FC<Props> = ({ opened, close, initialValues }) => {
           <span>지출 카테고리 : </span>
           <select {...register("category")}>
             <option value="living">생활비</option>
-            <option value="eat out">외식빅</option>
+            <option value="eat out">외식비</option>
             <option value="family">가족비</option>
             <option value="friend">친구비</option>
             <option value="transport">교통비</option>
