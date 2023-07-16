@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SpeedDialIcon } from "@mui/material";
 
-import Dialog from "./Dialog";
+import Dialog from "../Dialog";
 import "./AddRecord.css";
 
 interface Props {}
