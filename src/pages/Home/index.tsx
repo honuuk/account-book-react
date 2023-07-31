@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers";
 
@@ -22,6 +22,7 @@ import { RecordData, SpendingCategory } from "../../types";
 
 import styles from "./styles";
 import "./home.css";
+import { getRecords } from "../../service/record";
 
 interface Props {}
 
@@ -128,6 +129,10 @@ const Home: React.FC<Props> = () => {
     setSelectedRecord(record);
     setIsOpen(true);
   };
+
+  useEffect(() => {
+    getRecords().then((res) => console.log(res));
+  }, []);
 
   return (
     <>

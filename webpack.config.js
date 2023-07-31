@@ -1,6 +1,9 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
+const dotenv = require("dotenv");
+dotenv.config();
+
 const mode = process.env.NODE_ENV || "development";
 
 module.exports = {
@@ -46,5 +49,13 @@ module.exports = {
       template: "./public/index.html",
     }),
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.EnvironmentPlugin([
+      "FIREBASE_API_KEY",
+      "FIREBASE_AUTH_DOMAIN",
+      "FIREBASE_PROJECT_ID",
+      "FIREBASE_STORAGE_BUCKET",
+      "FIREBASE_MESSAGING_SENDER_ID",
+      "FIREBASE_APP_ID",
+    ]),
   ],
 };
