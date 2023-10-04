@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import useSWR from "swr";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers";
 
@@ -18,11 +19,11 @@ import {
 import SpendingRecord from "../../components/page/SpendingRecord";
 import AddRecord from "../../components/page/AddRecord";
 import Dialog from "../../components/page/Dialog";
+import { getRecords, updateRecord } from "../../service/record";
 import { RecordData, SpendingCategory } from "../../types";
 
 import styles from "./styles";
 import "./home.css";
-import { getRecords } from "../../service/record";
 
 interface Props {}
 
@@ -37,65 +38,6 @@ const categoryLabels: Record<SpendingCategory, string> = {
   leisure: "여가비",
   etc: "기타",
 };
-
-const data: RecordData[] = [
-  {
-    title: "장보기",
-    category: "living",
-    type: "card",
-    price: 23000,
-    description: "",
-  },
-  {
-    title: "외식",
-    category: "eat out",
-    type: "cash",
-    price: 20000,
-    description: "",
-  },
-  {
-    title: "약속",
-    category: "family",
-    type: "welfare",
-    price: 30000,
-    description: "",
-  },
-  {
-    title: "약속",
-    category: "friend",
-    type: "welfare",
-    price: 30000,
-    description: "",
-  },
-  {
-    title: "약속",
-    category: "eat out",
-    type: "welfare",
-    price: 30000,
-    description: "",
-  },
-  {
-    title: "약속",
-    category: "transport",
-    type: "welfare",
-    price: 30000,
-    description: "",
-  },
-  {
-    title: "약속",
-    category: "health",
-    type: "welfare",
-    price: 30000,
-    description: "",
-  },
-  {
-    title: "약속",
-    category: "etc",
-    type: "welfare",
-    price: 30000,
-    description: "",
-  },
-];
 
 const categories: SpendingCategory[] = [
   "living",
@@ -114,10 +56,13 @@ const Home: React.FC<Props> = () => {
   const [tabIndex, setTabIndex] = useState<number>(0);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedRecord, setSelectedRecord] = useState<RecordData>();
+  const { data } = useSWR("/records", () =>
+    getRecords(selectedDate.format("YYYY-MM"))
+  );
 
   const categorizedRecords = useMemo(
     () =>
-      data.reduce((acc, record) => {
+      (data || []).reduce((acc, record) => {
         if (acc[record.category]) acc[record.category].push(record);
         else acc[record.category] = [record];
         return acc;
@@ -130,9 +75,10 @@ const Home: React.FC<Props> = () => {
     setIsOpen(true);
   };
 
-  useEffect(() => {
-    getRecords().then((res) => console.log(res));
-  }, []);
+  const onSubmit = async (record: RecordData) => {
+    await updateRecord(record);
+    setIsOpen(false);
+  };
 
   return (
     <>
@@ -156,7 +102,7 @@ const Home: React.FC<Props> = () => {
             <TableHead>
               <TableRow sx={styles.tableHeadRow}>
                 {categories.map((category) => (
-                  <TableCell sx={styles.tableHeadCell}>
+                  <TableCell key={category} sx={styles.tableHeadCell}>
                     {categoryLabels[category]}
                   </TableCell>
                 ))}
@@ -164,7 +110,7 @@ const Home: React.FC<Props> = () => {
             </TableHead>
             <TableBody sx={styles.tableBody}>
               {categories.map((category) => (
-                <TableRow sx={styles.tableBodyRow}>
+                <TableRow key={category} sx={styles.tableBodyRow}>
                   {categorizedRecords[category]?.map((record) => (
                     <TableCell
                       component="td"
@@ -181,11 +127,13 @@ const Home: React.FC<Props> = () => {
           </Table>
         </TableContainer>
       </Box>
-      <AddRecord />
+      <AddRecord month={selectedDate.format("YYYY-MM")} />
       {isOpen && (
         <Dialog
           opened={isOpen}
           close={() => setIsOpen(false)}
+          month={selectedDate.format("YYYY-MM")}
+          onSubmit={onSubmit}
           initialValues={selectedRecord}
         />
       )}

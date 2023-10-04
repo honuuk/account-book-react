@@ -6,28 +6,29 @@ import { RecordData } from "../../../types";
 import "./Dialog.css";
 
 const DefaultValues: RecordData = {
+  id: "",
   title: "",
   type: "card",
   category: "living",
   price: 0,
   description: "",
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  month: "",
 };
 
 interface Props {
   close: () => void;
   opened: boolean;
+  month: string;
+  onSubmit: (data: RecordData) => Promise<void>;
   initialValues?: RecordData;
 }
 
-const Comp: React.FC<Props> = ({ opened, close, initialValues }) => {
+const Comp: React.FC<Props> = ({ opened, close, initialValues, onSubmit }) => {
   const { register, handleSubmit, reset } = useForm({
     defaultValues: initialValues || DefaultValues,
   });
-
-  const onSubmit = (data: any) => {
-    console.log(data);
-    return close();
-  };
 
   const handleClose = () => {
     reset(DefaultValues);
@@ -42,6 +43,7 @@ const Comp: React.FC<Props> = ({ opened, close, initialValues }) => {
       open={opened}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
+        <input type="hidden" {...register("id")} />
         <div className="inputBox">
           <span>지출내역 : </span>
           <input
@@ -93,11 +95,11 @@ const Comp: React.FC<Props> = ({ opened, close, initialValues }) => {
             {...register("description")}
           />
         </div>
-        <button className="saveButton" type="submit">
-          {initialValues ? "저장" : "추가"}
-        </button>
         <button className="cancelButton" onClick={handleClose}>
           닫기
+        </button>
+        <button className="saveButton" type="submit">
+          {initialValues ? "수정" : "추가"}
         </button>
       </form>
     </Dialog>
