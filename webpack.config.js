@@ -21,6 +21,9 @@ module.exports = {
 
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
+    alias: {
+      "~": path.resolve(__dirname, "src/"),
+    },
   },
 
   module: {
@@ -31,7 +34,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: ["style-loader", "css-loader", "postcss-loader"],
       },
     ],
   },
