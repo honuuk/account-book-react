@@ -1,37 +1,32 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "./components/ui/accordion";
+
+import MainNav from "./components/layout/MainNav";
+
+import Overview from "./pages/Overview";
+import Assets from "./pages/Assets";
+import Spending from "./pages/Spending";
+import Simulation from "./pages/Simulation";
 
 interface Props {}
 
 const App: React.FC<Props> = () => {
   return (
-    <Accordion type="single" collapsible className="w-full">
-      <AccordionItem value="item-1">
-        <AccordionTrigger>Is it accessible?</AccordionTrigger>
-        <AccordionContent>
-          Yes. It adheres to the WAI-ARIA design pattern.
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-2">
-        <AccordionTrigger>Is it styled?</AccordionTrigger>
-        <AccordionContent>
-          Yes. It comes with default styles that matches the other
-          components&apos; aesthetic.
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-3">
-        <AccordionTrigger>Is it animated?</AccordionTrigger>
-        <AccordionContent>
-          Yes. It's animated by default, but you can disable it if you prefer.
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+    <BrowserRouter>
+      <div className="hidden flex-col md:flex">
+        <div className="border-b">
+          <div className="flex h-16 items-center px-4">
+            <MainNav className="mx-6" />
+          </div>
+        </div>
+      </div>
+      <Routes>
+        <Route path="/" element={<Overview />} />
+        <Route path="/assets" element={<Assets />} />
+        <Route path="/spending" element={<Spending />} />
+        <Route path="/simulation" element={<Simulation />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
