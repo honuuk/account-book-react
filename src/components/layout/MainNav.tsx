@@ -1,6 +1,25 @@
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "~/utils/shadcn";
 
+const paths: { path: string; label: string }[] = [
+  {
+    path: "/",
+    label: "Overview",
+  },
+  {
+    path: "/assets",
+    label: "Assets",
+  },
+  {
+    path: "/spending",
+    label: "Spending",
+  },
+  {
+    path: "/simulation",
+    label: "Simulation",
+  },
+];
+
 export default function MainNav({
   className,
   ...props
@@ -16,42 +35,17 @@ export default function MainNav({
       className={cn("flex items-center space-x-4 lg:space-x-6", className)}
       {...props}
     >
-      <Link
-        to="/"
-        className={cn(
-          "text-sm font-medium transition-colors hover:text-primary",
-          selected("/")
-        )}
-      >
-        Overview
-      </Link>
-      <Link
-        to="/assets"
-        className={cn(
-          "text-sm font-medium transition-colors hover:text-primary",
-          selected("/assets")
-        )}
-      >
-        Assets
-      </Link>
-      <Link
-        to="/spending"
-        className={cn(
-          "text-sm font-medium transition-colors hover:text-primary",
-          selected("/spending")
-        )}
-      >
-        Spending
-      </Link>
-      <Link
-        to="/simulation"
-        className={cn(
-          "text-sm font-medium transition-colors hover:text-primary",
-          selected("/assets")
-        )}
-      >
-        Simulation
-      </Link>
+      {paths.map(({ path, label }) => (
+        <Link
+          to={path}
+          className={cn(
+            "text-sm font-medium transition-colors hover:text-primary",
+            selected(path)
+          )}
+        >
+          {label}
+        </Link>
+      ))}
     </nav>
   );
 }
