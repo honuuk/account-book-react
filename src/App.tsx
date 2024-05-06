@@ -19,13 +19,13 @@ const App: React.FC<Props> = () => {
             <MainNav className="mx-6" />
           </div>
         </div>
+        <Routes>
+          <Route path="/" element={<Overview />} />
+          <Route path="/assets" element={<Assets />} />
+          <Route path="/spending" element={<Spending />} />
+          <Route path="/simulation" element={<Simulation />} />
+        </Routes>
       </div>
-      <Routes>
-        <Route path="/" element={<Overview />} />
-        <Route path="/assets" element={<Assets />} />
-        <Route path="/spending" element={<Spending />} />
-        <Route path="/simulation" element={<Simulation />} />
-      </Routes>
     </BrowserRouter>
   );
 };
