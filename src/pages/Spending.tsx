@@ -1,15 +1,26 @@
+import { useState } from "react";
+
 import MonthPicker from "~/components/page/spending/MonthPicker";
 import { PortionChart } from "~/components/page/spending/PortionChart";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { YearMonthString } from "~/types";
+import { getYearMonth } from "~/utils/date";
 
 interface Props {}
 
 const Spending: React.FC<Props> = () => {
+  const [yearMonth, setYearMonth] = useState<YearMonthString>(
+    getYearMonth(new Date())
+  );
+
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
       <div className="flex items-center justify-between space-y-2">
         <h2 className="text-3xl font-bold tracking-tight">소득 · 지출</h2>
-        <MonthPicker />
+        <MonthPicker
+          currentYearMonth={yearMonth}
+          onYearMonthChange={setYearMonth}
+        />
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
