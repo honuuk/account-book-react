@@ -37,6 +37,7 @@ export default function MainNav({
     >
       {paths.map(({ path, label }) => (
         <Link
+          key={label}
           to={path}
           className={cn(
             "text-sm font-medium transition-colors hover:text-primary",
