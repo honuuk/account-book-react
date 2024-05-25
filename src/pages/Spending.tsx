@@ -1,13 +1,13 @@
-import { PlusCircledIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
+
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { getYearMonth } from "~/utils/date";
+import { YearMonthString } from "~/types";
 
 import MonthPicker from "~/components/page/spending/MonthPicker";
 import { PortionChart } from "~/components/page/spending/PortionChart";
-import { Button } from "~/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { YearMonthString } from "~/types";
-import { getYearMonth } from "~/utils/date";
+import Edit from "~/components/page/spending/Edit";
 
 interface Props {}
 
@@ -35,10 +35,7 @@ const Spending: React.FC<Props> = () => {
           </TabsList>
         </Tabs>
         <div className="ml-auto">
-          <Button>
-            <PlusCircledIcon className="mr-2 h-4 w-4" />
-            추가
-          </Button>
+          <Edit />
         </div>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
@@ -61,13 +58,16 @@ const Spending: React.FC<Props> = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">- 45,231 원</div>
+            <p className="text-xs text-muted-foreground">
+              +20.1% from last month
+            </p>
           </CardContent>
         </Card>
       </div>
       <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
         <Card>
           <CardHeader>
-            <CardTitle>지출</CardTitle>
+            <CardTitle>지출금액</CardTitle>
           </CardHeader>
           <CardContent className="pl-2">
             <PortionChart />
