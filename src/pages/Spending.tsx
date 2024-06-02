@@ -1,13 +1,17 @@
 import { useState } from "react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { getYearMonth } from "~/utils/date";
-import { YearMonthString } from "~/types";
+import { getYearMonth, parseYear, subYear } from "~/utils/date";
+import type { Spending, YearMonthString, SpendingTab } from "~/types";
+
+import { spending } from "~/service/spending";
 
 import MonthPicker from "~/components/page/spending/MonthPicker";
-import { PortionChart } from "~/components/page/spending/PortionChart";
+import Fetcher from "~/components/common/Fetcher";
+import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import Edit from "~/components/page/spending/Edit";
+import SpendingPage from "~/components/page/spending/SpendingPage";
+import Income from "~/components/page/spending/Income";
+import Saving from "~/components/page/spending/Saving";
 
 interface Props {}
 
@@ -26,56 +30,47 @@ const Spending: React.FC<Props> = () => {
           onYearMonthChange={setYearMonth}
         />
       </div>
-      <div className="space-between flex items-center">
-        <Tabs value={tab} onValueChange={setTab} className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="spending">지출</TabsTrigger>
-            <TabsTrigger value="income">소득</TabsTrigger>
-            <TabsTrigger value="save">저축</TabsTrigger>
-          </TabsList>
-        </Tabs>
-        <div className="ml-auto">
-          <Edit />
-        </div>
-      </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              이번 달 총 지출
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">- 45,231 원</div>
-            <p className="text-xs text-muted-foreground">
-              +20.1% from last month
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">올해 총 지출</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">- 45,231 원</div>
-            <p className="text-xs text-muted-foreground">
-              +20.1% from last month
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-      <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
-        <Card>
-          <CardHeader>
-            <CardTitle>지출금액</CardTitle>
-          </CardHeader>
-          <CardContent className="pl-2">
-            <PortionChart />
-          </CardContent>
-        </Card>
-      </div>
+      <Fetcher
+        fetcher={async () => {
+          const spendings = await spending.findAllByYear(parseYear(yearMonth));
+          const lastYearSpendings = await spending.findAllByYear(
+            subYear(parseYear(yearMonth))
+          );
+          return { spendings, lastYearSpendings };
+        }}
+      >
+        {(data) => (
+          <>
+            <div className="space-between flex items-center">
+              <Tabs value={tab} onValueChange={setTab} className="space-y-4">
+                <TabsList>
+                  {["spending", "income", "saving"].map((value) => (
+                    <TabsTrigger value={value}>
+                      {labelMap[value as SpendingTab]}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </Tabs>
+              <div className="ml-auto">
+                <Edit />
+              </div>
+            </div>
+            {tab === "spending" && (
+              <SpendingPage {...data} yearMonth={yearMonth} />
+            )}
+            {tab === "income" && <Income {...data} yearMonth={yearMonth} />}
+            {tab === "saving" && <Saving {...data} yearMonth={yearMonth} />}
+          </>
+        )}
+      </Fetcher>
     </div>
   );
 };
 
 export default Spending;
+
+const labelMap: Record<SpendingTab, string> = {
+  spending: "지출",
+  income: "소득",
+  saving: "저축",
+};

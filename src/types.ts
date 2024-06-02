@@ -9,3 +9,5 @@ export interface Spending {
   income: number;
   spending: number;
 }
+
+export type SpendingTab = "spending" | "income" | "saving";

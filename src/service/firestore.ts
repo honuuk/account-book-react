@@ -37,6 +37,23 @@ export async function queryAll<T = any>(
   return result;
 }
 
+export async function query<T = any>(
+  collectionName: string,
+  condition: Record<string, any>
+) {
+  const collectionRef = collection(db, collectionName);
+
+  const q = firestoreQuery(
+    collectionRef,
+    ...conditionToFirestoreWhere(condition)
+  );
+
+  const querySnapshot = await getDocs(q);
+  const document = querySnapshot.docs[0];
+
+  return document ? (document.data() as T) : undefined;
+}
+
 function conditionToFirestoreWhere(condition: Record<string, any>) {
   return Object.entries(condition).map(([key, value]) =>
     where(key, "==", value)

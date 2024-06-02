@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import MainNav from "./components/layout/MainNav";
 
@@ -19,12 +20,14 @@ const App: React.FC<Props> = () => {
             <MainNav className="mx-6" />
           </div>
         </div>
-        <Routes>
-          <Route path="/" element={<Overview />} />
-          <Route path="/assets" element={<Assets />} />
-          <Route path="/spending" element={<Spending />} />
-          <Route path="/simulation" element={<Simulation />} />
-        </Routes>
+        <QueryClientProvider client={new QueryClient()}>
+          <Routes>
+            <Route path="/" element={<Overview />} />
+            <Route path="/assets" element={<Assets />} />
+            <Route path="/spending" element={<Spending />} />
+            <Route path="/simulation" element={<Simulation />} />
+          </Routes>
+        </QueryClientProvider>
       </div>
     </BrowserRouter>
   );

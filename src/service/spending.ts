@@ -1,14 +1,14 @@
-import { Spending } from "~/types";
+import { Spending, Year } from "~/types";
 import * as firestore from "./firestore";
 
 const COLLECTION_NAME = "spending";
 
 export const spending: SpendingApi = {
-  findAllByYearMonth: (year: string, month: string) => {
-    return firestore.queryAll(COLLECTION_NAME, { year, month });
+  findAllByYear: (year: string) => {
+    return firestore.queryAll(COLLECTION_NAME, { year });
   },
 };
 
 export interface SpendingApi {
-  findAllByYearMonth: (year: string, month: string) => Promise<Spending[]>;
+  findAllByYear: (year: Year) => Promise<Spending[]>;
 }
