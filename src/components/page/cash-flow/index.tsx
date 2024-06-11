@@ -49,9 +49,15 @@ const CashFlowPage: React.FC<Props> = ({ yearMonth, cashFlowService }) => {
             ))}
           </TabsList>
         </Tabs>
-        <div className="ml-auto">
-          <Edit />
-        </div>
+        {type !== "saving" && (
+          <div className="ml-auto">
+            <Edit
+              type={type}
+              yearMonth={yearMonth}
+              cashFlowService={cashFlowService}
+            />
+          </div>
+        )}
       </div>
       <Detail
         type={type}

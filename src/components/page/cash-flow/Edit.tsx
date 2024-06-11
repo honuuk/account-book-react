@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
 
 import { Button } from "~/components/ui/button";
@@ -12,29 +13,68 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
+import { CashFlowType, YearMonthString } from "~/types";
+import { CashFlowService } from "~/service/cash-flow";
 
-export default function Edit() {
+import { labelMap } from "./index";
+
+interface Props {
+  type: CashFlowType;
+  yearMonth: YearMonthString;
+  cashFlowService: CashFlowService;
+}
+
+export default function Edit({ type, yearMonth, cashFlowService }: Props) {
+  const [amount, setAmount] = useState<number | undefined>(
+    cashFlowService.getCurrentMonthValue(type, yearMonth)
+  );
+
+  const typeLabel = labelMap[type];
+  const action = cashFlowService.getCurrentMonthValue(type, yearMonth)
+    ? "수정"
+    : "추가";
+
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value.replaceAll(",", ""));
+    if (Number.isNaN(value)) return;
+    setAmount(value);
+  };
+
+  const save = async () => {};
+
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button>
           <PlusCircledIcon className="mr-2 h-4 w-4" />
-          추가
+          {action}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>지출 추가하기</DialogTitle>
-          <DialogDescription>2024년 5월의 지출로 저장됩니다.</DialogDescription>
+          <DialogTitle>
+            {typeLabel} {action}하기
+          </DialogTitle>
+          <DialogDescription>
+            {yearMonth}의 {typeLabel}로 저장됩니다.
+          </DialogDescription>
         </DialogHeader>
-        <div className="py-4 grid grid-cols-5 items-center gap-4">
-          <Label htmlFor="price" className="text-right">
-            지출 금액
+        <div className="py-4 grid grid-cols-9 items-center gap-4">
+          <Label htmlFor="price" className="text-left col-span-2">
+            {typeLabel} 금액
           </Label>
-          <Input id="name" className="col-span-4" />
+          <Input
+            id="name"
+            value={(amount || "").toLocaleString()}
+            onChange={handleAmountChange}
+            className="col-span-6"
+          />
+          <div className="col-span-1">원</div>
         </div>
         <DialogFooter>
-          <Button type="submit">저장</Button>
+          <Button type="submit" onClick={save}>
+            저장
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
