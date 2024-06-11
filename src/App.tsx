@@ -6,7 +6,7 @@ import MainNav from "./components/layout/MainNav";
 
 import Overview from "./pages/Overview";
 import Assets from "./pages/Assets";
-import Spending from "./pages/Spending";
+import CashFlow from "./pages/CashFlow";
 import Simulation from "./pages/Simulation";
 
 interface Props {}
@@ -24,7 +24,7 @@ const App: React.FC<Props> = () => {
           <Routes>
             <Route path="/" element={<Overview />} />
             <Route path="/assets" element={<Assets />} />
-            <Route path="/spending" element={<Spending />} />
+            <Route path="/cashFlow" element={<CashFlow />} />
             <Route path="/simulation" element={<Simulation />} />
           </Routes>
         </QueryClientProvider>

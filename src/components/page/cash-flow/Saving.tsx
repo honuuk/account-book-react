@@ -1,63 +1,64 @@
 import { useMemo } from "react";
 
 import { getLastMonth } from "~/utils/date";
-import { type Spending, YearMonthString } from "~/types";
+import { type CashFlow, YearMonthString } from "~/types";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 import { PortionChart } from "./PortionChart";
 
 interface Props {
-  spendings: Spending[];
-  lastYearSpendings: Spending[];
+  cashFlows: CashFlow[];
+  lastYearCashFlows: CashFlow[];
   yearMonth: YearMonthString;
 }
 
-const SpendingPage: React.FC<Props> = ({
-  spendings,
-  lastYearSpendings,
+const Saving: React.FC<Props> = ({
+  cashFlows,
+  lastYearCashFlows,
   yearMonth,
 }) => {
-  const spendingMap: Record<YearMonthString, Spending> = useMemo(() => {
-    const thisYearMap = spendings.reduce(
-      (acc, spending) => ({
+  const cashFlowMap: Record<YearMonthString, CashFlow> = useMemo(() => {
+    const thisYearMap = cashFlows.reduce(
+      (acc, cashFlow) => ({
         ...acc,
-        [`${spending.year}-${spending.month}`]: spending,
+        [`${cashFlow.year}-${cashFlow.month}`]: cashFlow,
       }),
       {}
     );
-    const lastYearMap = lastYearSpendings.reduce(
-      (acc, spending) => ({
+    const lastYearMap = lastYearCashFlows.reduce(
+      (acc, cashFlow) => ({
         ...acc,
-        [`${spending.year}-${spending.month}`]: spending,
+        [`${cashFlow.year}-${cashFlow.month}`]: cashFlow,
       }),
       {}
     );
 
     return { ...thisYearMap, ...lastYearMap };
-  }, [spendings, lastYearSpendings]);
+  }, [cashFlows, lastYearCashFlows]);
 
   const getMoM = () => {
-    const current = spendingMap[yearMonth];
-    const last = spendingMap[getLastMonth(yearMonth)];
+    const currentSpending = cashFlowMap[yearMonth];
+    const lastSpending = cashFlowMap[getLastMonth(yearMonth)];
 
-    if (!current || !last) return "";
+    if (!currentSpending || !lastSpending) return "";
+    const current = currentSpending.income - currentSpending.spending;
+    const last = lastSpending.income - lastSpending.spending;
 
-    const MoM = ((current.spending - last.spending) / last.spending) * 100;
+    const MoM = ((current - last) / last) * 100;
     return MoM > 0
       ? `+${MoM.toFixed(2)}% from last month`
       : `${MoM.toFixed(2)}% from last month`;
   };
 
   const getYoY = () => {
-    const current = spendings.reduce(
-      (acc, spending) => acc + spending.spending,
+    const current = cashFlows.reduce(
+      (acc, { income, spending }) => acc + (income - spending),
       0
     );
-    const last = lastYearSpendings.reduce(
-      (acc, spending) => acc + spending.spending,
+    const last = cashFlows.reduce(
+      (acc, { income, spending }) => acc + (income - spending),
       0
     );
-
     if (!current || !last) return "";
 
     const YoY = ((current - last) / last) * 100;
@@ -72,13 +73,16 @@ const SpendingPage: React.FC<Props> = ({
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              이번 달 총 지출
+              이번 달 총 저축
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {spendingMap[yearMonth]
-                ? `- ${spendingMap[yearMonth].spending.toLocaleString()} 원`
+              {cashFlowMap[yearMonth]
+                ? `${(
+                    cashFlowMap[yearMonth].income -
+                    cashFlowMap[yearMonth].spending
+                  ).toLocaleString()} 원`
                 : "-"}
             </div>
             <p className="text-xs text-muted-foreground">{getMoM()}</p>
@@ -86,12 +90,15 @@ const SpendingPage: React.FC<Props> = ({
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">올해 총 지출</CardTitle>
+            <CardTitle className="text-sm font-medium">올해 총 저축</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {`- ${spendings
-                .reduce((acc, { spending }) => acc + spending, 0)
+              {`${cashFlows
+                .reduce(
+                  (acc, { income, spending }) => acc + (income - spending),
+                  0
+                )
                 .toLocaleString()} 원`}
             </div>
             <p className="text-xs text-muted-foreground">{getYoY()}</p>
@@ -101,7 +108,7 @@ const SpendingPage: React.FC<Props> = ({
       <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
         <Card>
           <CardHeader>
-            <CardTitle>지출금액</CardTitle>
+            <CardTitle>저축금액</CardTitle>
           </CardHeader>
           <CardContent className="pl-2">
             <PortionChart />
@@ -112,4 +119,4 @@ const SpendingPage: React.FC<Props> = ({
   );
 };
 
-export default SpendingPage;
+export default Saving;

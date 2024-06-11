@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "~/utils/shadcn";
 
-const paths: { path: string; label: string }[] = [
+const menus: { path: string; label: string }[] = [
   {
     path: "/",
     label: "Overview",
@@ -11,8 +11,8 @@ const paths: { path: string; label: string }[] = [
     label: "Assets",
   },
   {
-    path: "/spending",
-    label: "Spending",
+    path: "/cashFlow",
+    label: "Cash Flow",
   },
   {
     path: "/simulation",
@@ -35,7 +35,7 @@ export default function MainNav({
       className={cn("flex items-center space-x-4 lg:space-x-6", className)}
       {...props}
     >
-      {paths.map(({ path, label }) => (
+      {menus.map(({ path, label }) => (
         <Link
           key={label}
           to={path}
