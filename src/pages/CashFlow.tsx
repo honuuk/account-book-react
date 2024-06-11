@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import type { CashFlow, YearMonthString } from "~/types";
-import { getYearMonth, parseYear, subYear } from "~/utils/date";
+import { getLastMonth, getYearMonth, parseYear } from "~/utils/date";
 import getCashFlowService from "~/service/cash-flow";
 
 import Fetcher from "~/components/common/Fetcher";
@@ -16,7 +16,7 @@ const CashFlow = () => {
   useEffect(() => {
     if (yearMonth) return;
 
-    navigate(`/cashFlow?date=${getYearMonth(new Date())}`);
+    navigate(`/cashFlow?date=${getLastMonth(getYearMonth(new Date()))}`);
   }, []);
 
   if (!yearMonth) return null;

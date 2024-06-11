@@ -142,7 +142,7 @@ export class CashFlowService implements ICashFlowService {
       }
     })();
 
-    if (!current || !last) return "something wrong";
+    if (!current || !last) return "";
 
     const YoY = ((current - last) / last) * 100;
     return YoY > 0
