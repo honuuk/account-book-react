@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import type { CashFlow, YearMonthString } from "~/types";
 import { getYearMonth, parseYear, subYear } from "~/utils/date";
-import cashFlow from "~/service/cash-flow";
+import getCashFlowService from "~/service/cash-flow";
 
 import Fetcher from "~/components/common/Fetcher";
 import CashFlowPage from "~/components/page/cash-flow";
@@ -22,16 +22,10 @@ const CashFlow = () => {
   if (!yearMonth) return null;
 
   return (
-    <Fetcher
-      fetcher={async () => {
-        const cashFlows = await cashFlow.findAllByYear(parseYear(yearMonth));
-        const lastYearCashFlows = await cashFlow.findAllByYear(
-          subYear(parseYear(yearMonth))
-        );
-        return { cashFlows, lastYearCashFlows };
-      }}
-    >
-      {(data) => <CashFlowPage {...data} yearMonth={yearMonth} />}
+    <Fetcher fetcher={() => getCashFlowService(parseYear(yearMonth))}>
+      {(cashFlowService) => (
+        <CashFlowPage cashFlowService={cashFlowService} yearMonth={yearMonth} />
+      )}
     </Fetcher>
   );
 };

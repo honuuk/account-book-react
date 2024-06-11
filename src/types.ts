@@ -10,4 +10,4 @@ export interface CashFlow {
   spending: number;
 }
 
-export type CashFlowTab = "spending" | "income" | "saving";
+export type CashFlowType = "spending" | "income" | "saving";

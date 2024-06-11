@@ -1,29 +1,29 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import type { CashFlowType, YearMonthString } from "~/types";
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { CashFlow, CashFlowTab, YearMonthString } from "~/types";
+import { CashFlowService } from "~/service/cash-flow";
 
 import MonthPicker from "./MonthPicker";
 import Edit from "./Edit";
-import Income from "./Income";
-import Saving from "./Saving";
-import Spending from "./Spending";
+import Detail from "./Detail";
 
-const labelMap: Record<CashFlowTab, string> = {
+export const labelMap: Record<CashFlowType, string> = {
   spending: "지출",
   income: "소득",
   saving: "저축",
 };
 
+const TYPES: CashFlowType[] = ["spending", "income", "saving"];
+
 interface Props {
   yearMonth: YearMonthString;
-  cashFlows: CashFlow[];
-  lastYearCashFlows: CashFlow[];
+  cashFlowService: CashFlowService;
 }
 
-const CashFlowPage: React.FC<Props> = ({ yearMonth, ...data }) => {
-  const [tab, setTab] = useState<string>("spending");
+const CashFlowPage: React.FC<Props> = ({ yearMonth, cashFlowService }) => {
+  const [type, setType] = useState<CashFlowType>("spending");
   const navigate = useNavigate();
 
   return (
@@ -36,11 +36,15 @@ const CashFlowPage: React.FC<Props> = ({ yearMonth, ...data }) => {
         />
       </div>
       <div className="space-between flex items-center">
-        <Tabs value={tab} onValueChange={setTab} className="space-y-4">
+        <Tabs
+          value={type}
+          onValueChange={(value) => setType(value as CashFlowType)}
+          className="space-y-4"
+        >
           <TabsList>
-            {["spending", "income", "saving"].map((value) => (
-              <TabsTrigger key={value} value={value}>
-                {labelMap[value as CashFlowTab]}
+            {TYPES.map((type) => (
+              <TabsTrigger key={type} value={type}>
+                {labelMap[type]}
               </TabsTrigger>
             ))}
           </TabsList>
@@ -49,9 +53,11 @@ const CashFlowPage: React.FC<Props> = ({ yearMonth, ...data }) => {
           <Edit />
         </div>
       </div>
-      {tab === "spending" && <Spending {...data} yearMonth={yearMonth} />}
-      {tab === "income" && <Income {...data} yearMonth={yearMonth} />}
-      {tab === "saving" && <Saving {...data} yearMonth={yearMonth} />}
+      <Detail
+        type={type}
+        yearMonth={yearMonth}
+        cashFlowService={cashFlowService}
+      />
     </div>
   );
 };
