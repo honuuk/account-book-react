@@ -16,6 +16,10 @@ const getCashFlowService = async (year: Year) => {
 
 export default getCashFlowService;
 
+const updateCashFlow = async (id: string, payload: Omit<CashFlow, "id">) => {
+  await firestore.updateDocument(COLLECTION_NAME, id, payload);
+};
+
 export class CashFlowService implements ICashFlowService {
   private cashFlows: CashFlow[] = [];
   private lastYearCashFlows: CashFlow[] = [];
@@ -179,6 +183,14 @@ export class CashFlowService implements ICashFlowService {
 
     return {} as Record<Month, number>;
   }
+
+  async update(yearMonth: YearMonthString, type: CashFlowType, amount: number) {
+    const cashFlow = this.cashFlowMap[yearMonth];
+    if (!cashFlow || type === "saving") return;
+
+    const { id, ...payload } = cashFlow;
+    await updateCashFlow(id, { ...payload, [type]: amount });
+  }
 }
 
 interface ICashFlowService {
@@ -194,4 +206,9 @@ interface ICashFlowService {
   getYoY: (type: CashFlowType) => string;
   getAnnualTrendLabel: (type: CashFlowType) => string;
   getAnnualData: (type: CashFlowType) => Record<Month, number>;
+  update: (
+    yearMonth: YearMonthString,
+    type: CashFlowType,
+    amount: number
+  ) => Promise<void>;
 }

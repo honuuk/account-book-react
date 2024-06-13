@@ -40,7 +40,10 @@ export default function Edit({ type, yearMonth, cashFlowService }: Props) {
     setAmount(value);
   };
 
-  const save = async () => {};
+  const save = async () => {
+    if (action !== "수정" || !amount) return;
+    await cashFlowService.update(yearMonth, type, amount);
+  };
 
   return (
     <Dialog>
@@ -64,7 +67,7 @@ export default function Edit({ type, yearMonth, cashFlowService }: Props) {
             {typeLabel} 금액
           </Label>
           <Input
-            id="name"
+            id="price"
             value={(amount || "").toLocaleString()}
             onChange={handleAmountChange}
             className="col-span-6"

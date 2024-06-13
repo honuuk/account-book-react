@@ -5,6 +5,8 @@ import {
   query as firestoreQuery,
   where,
   getDocs,
+  doc,
+  setDoc,
 } from "@firebase/firestore";
 
 const firebaseConfig = {
@@ -32,7 +34,9 @@ export async function queryAll<T = any>(
 
   const result: T[] = [];
   const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => result.push(doc.data() as T));
+  querySnapshot.forEach((doc) => {
+    result.push({ id: doc.id, ...doc.data() } as T);
+  });
 
   return result;
 }
@@ -51,7 +55,15 @@ export async function query<T = any>(
   const querySnapshot = await getDocs(q);
   const document = querySnapshot.docs[0];
 
-  return document ? (document.data() as T) : undefined;
+  return document ? ({ id: document.id, ...document.data() } as T) : undefined;
+}
+
+export async function updateDocument<T extends { [key: string]: any }>(
+  collectionName: string,
+  documentId: string,
+  payload: T
+) {
+  await setDoc(doc(db, collectionName, documentId), payload);
 }
 
 function conditionToFirestoreWhere(condition: Record<string, any>) {
