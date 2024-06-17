@@ -7,6 +7,7 @@ import {
   getDocs,
   doc,
   setDoc,
+  addDoc,
 } from "@firebase/firestore";
 
 const firebaseConfig = {
@@ -64,6 +65,13 @@ export async function updateDocument<T extends { [key: string]: any }>(
   payload: T
 ) {
   await setDoc(doc(db, collectionName, documentId), payload);
+}
+
+export async function createDocument<T extends { [key: string]: any }>(
+  collectionName: string,
+  payload: T
+) {
+  await addDoc(collection(db, collectionName), payload);
 }
 
 function conditionToFirestoreWhere(condition: Record<string, any>) {

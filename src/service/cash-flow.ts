@@ -1,5 +1,5 @@
 import { CashFlow, CashFlowType, Month, Year, YearMonthString } from "~/types";
-import { getLastMonth, subYear } from "~/utils/date";
+import { getLastMonth, parseMonth, parseYear, subYear } from "~/utils/date";
 
 import * as firestore from "./firestore";
 
@@ -18,6 +18,10 @@ export default getCashFlowService;
 
 const updateCashFlow = async (id: string, payload: Omit<CashFlow, "id">) => {
   await firestore.updateDocument(COLLECTION_NAME, id, payload);
+};
+
+const createCashFlow = async (payload: Partial<CashFlow>) => {
+  await firestore.createDocument(COLLECTION_NAME, payload);
 };
 
 export class CashFlowService implements ICashFlowService {
@@ -190,6 +194,22 @@ export class CashFlowService implements ICashFlowService {
 
     const { id, ...payload } = cashFlow;
     await updateCashFlow(id, { ...payload, [type]: amount });
+  }
+
+  async create(yearMonth: YearMonthString, type: CashFlowType, amount: number) {
+    const cashFlow = this.cashFlowMap[yearMonth];
+    if (type === "saving") return;
+
+    if (cashFlow) {
+      const { id, ...payload } = cashFlow;
+      await updateCashFlow(id, { ...payload, [type]: amount });
+    } else {
+      await createCashFlow({
+        year: parseYear(yearMonth),
+        month: parseMonth(yearMonth),
+        [type]: amount,
+      });
+    }
   }
 }
 
