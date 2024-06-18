@@ -1,12 +1,7 @@
+import { useMemo } from "react";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
-import { CashFlowService } from "~/service/cash-flow";
-import { CashFlowType, Month } from "~/types";
-
-interface Props {
-  type: CashFlowType;
-  cashFlowService: CashFlowService;
-}
+import { CashFlow, CashFlowType, Month } from "~/types";
 
 const MONTHS = [
   {
@@ -59,8 +54,36 @@ const MONTHS = [
   },
 ];
 
-export default function AnnualTrend({ type, cashFlowService }: Props) {
-  const annualData = cashFlowService.getAnnualData(type);
+interface Props {
+  type: CashFlowType;
+  currentYear: CashFlow[];
+}
+
+export default function AnnualTrend({ type, currentYear }: Props) {
+  const annualData = useMemo(() => {
+    if (type === "spending")
+      return currentYear.reduce(
+        (acc, { month, spending }) => ({ ...acc, [month]: spending || 0 }),
+        {} as Record<Month, number>
+      );
+    if (type === "income")
+      return currentYear.reduce(
+        (acc, { month, income }) => ({ ...acc, [month]: income || 0 }),
+        {} as Record<Month, number>
+      );
+    if (type === "saving")
+      return currentYear
+        .filter(({ income, spending }) => income && spending)
+        .reduce(
+          (acc, cashFlow) => ({
+            ...acc,
+            [cashFlow.month]: cashFlow.income! - cashFlow.spending!,
+          }),
+          {} as Record<Month, number>
+        );
+    return {} as Record<Month, number>;
+  }, [type, currentYear]);
+
   return (
     <ResponsiveContainer width="100%" height={350}>
       <BarChart

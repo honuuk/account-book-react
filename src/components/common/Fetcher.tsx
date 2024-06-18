@@ -1,21 +1,30 @@
 import { useQuery } from "@tanstack/react-query";
 
+import Spinner from "../ui/spinner";
+import { createContext } from "react";
+
+export const RefetchContext = createContext<() => Promise<any>>(async () => "");
+
 interface Props<T> {
   fetcher: () => Promise<T>;
   children: (data: T) => React.ReactNode;
 }
 
 function Fetcher<T extends object>({ fetcher, children }: Props<T>) {
-  const { data, isPending, isError, error } = useQuery({
+  const { data, isPending, isError, error, refetch } = useQuery({
     queryKey: [location.href],
     queryFn: fetcher,
   });
 
-  if (isPending) return <div>Loading...</div>;
+  if (isPending) return <Spinner />;
 
   if (isError) return <div>{JSON.stringify(error)}</div>;
 
-  return <>{children(data)}</>;
+  return (
+    <RefetchContext.Provider value={refetch}>
+      {children(data)}
+    </RefetchContext.Provider>
+  );
 }
 
 export default Fetcher;

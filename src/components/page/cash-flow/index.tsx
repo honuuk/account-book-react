@@ -1,28 +1,35 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import type { CashFlowType, YearMonthString } from "~/types";
+import type { CashFlow, CashFlowType, YearMonthString } from "~/types";
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { CashFlowService } from "~/service/cash-flow";
 
 import MonthPicker from "./MonthPicker";
 import Edit from "./Edit";
 import Detail from "./Detail";
 
-export const labelMap: Record<CashFlowType, string> = {
+const TYPES: CashFlowType[] = ["spending", "income", "saving"];
+export const typeLabelMap: Record<CashFlowType, string> = {
   spending: "지출",
   income: "소득",
   saving: "저축",
 };
 
-const TYPES: CashFlowType[] = ["spending", "income", "saving"];
-
 interface Props {
   yearMonth: YearMonthString;
-  cashFlowService: CashFlowService;
+  currentMonth: CashFlow | undefined;
+  lastMonth: CashFlow | undefined;
+  currentYear: CashFlow[];
+  lastYear: CashFlow[];
 }
 
-const CashFlowPage: React.FC<Props> = ({ yearMonth, cashFlowService }) => {
+const CashFlowPage: React.FC<Props> = ({
+  yearMonth,
+  currentMonth,
+  lastMonth,
+  currentYear,
+  lastYear,
+}) => {
   const [type, setType] = useState<CashFlowType>("spending");
   const navigate = useNavigate();
 
@@ -38,13 +45,13 @@ const CashFlowPage: React.FC<Props> = ({ yearMonth, cashFlowService }) => {
       <div className="space-between flex items-center">
         <Tabs
           value={type}
-          onValueChange={(value) => setType(value as CashFlowType)}
           className="space-y-4"
+          onValueChange={(value) => setType(value as CashFlowType)}
         >
           <TabsList>
             {TYPES.map((type) => (
               <TabsTrigger key={type} value={type}>
-                {labelMap[type]}
+                {typeLabelMap[type]}
               </TabsTrigger>
             ))}
           </TabsList>
@@ -54,15 +61,17 @@ const CashFlowPage: React.FC<Props> = ({ yearMonth, cashFlowService }) => {
             <Edit
               type={type}
               yearMonth={yearMonth}
-              cashFlowService={cashFlowService}
+              currentMonth={currentMonth}
             />
           </div>
         )}
       </div>
       <Detail
         type={type}
-        yearMonth={yearMonth}
-        cashFlowService={cashFlowService}
+        currentMonth={currentMonth}
+        lastMonth={lastMonth}
+        currentYear={currentYear}
+        lastYear={lastYear}
       />
     </div>
   );

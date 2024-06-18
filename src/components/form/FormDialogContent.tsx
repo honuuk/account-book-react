@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { DefaultValues, UseFormReturn, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ZodObject } from "zod";
+
+import { RefetchContext } from "../common/Fetcher";
 
 import { useToast } from "../ui/use-toast";
 import { Button } from "../ui/button";
@@ -41,6 +43,7 @@ export default function FormDialogContent<
 }: Props<FormValues>) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { toast } = useToast();
+  const refetch = useContext(RefetchContext);
 
   const form = useForm<FormValues>({
     ...(validateSchema ? { resolver: zodResolver(validateSchema) } : {}),
@@ -51,6 +54,7 @@ export default function FormDialogContent<
     try {
       setIsLoading(true);
       await onSubmit(values);
+      await refetch();
       toast({
         title: "정상적으로 처리되었습니다.",
       });

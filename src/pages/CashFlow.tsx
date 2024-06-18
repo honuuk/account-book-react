@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import type { CashFlow, YearMonthString } from "~/types";
-import { getLastMonth, getYearMonth, parseYear } from "~/utils/date";
-import getCashFlowService from "~/service/cash-flow";
+import { getLastMonth, getYearMonth, parseYear, subYear } from "~/utils/date";
+import cashFlowApi from "~/service/cash-flow";
 
 import Fetcher from "~/components/common/Fetcher";
 import CashFlowPage from "~/components/page/cash-flow";
@@ -22,10 +22,15 @@ const CashFlow = () => {
   if (!yearMonth) return null;
 
   return (
-    <Fetcher fetcher={() => getCashFlowService(parseYear(yearMonth))}>
-      {(cashFlowService) => (
-        <CashFlowPage cashFlowService={cashFlowService} yearMonth={yearMonth} />
-      )}
+    <Fetcher
+      fetcher={async () => ({
+        currentMonth: await cashFlowApi.getByYearMonth(yearMonth),
+        lastMonth: await cashFlowApi.getByYearMonth(getLastMonth(yearMonth)),
+        currentYear: await cashFlowApi.getAllByYear(parseYear(yearMonth)),
+        lastYear: await cashFlowApi.getAllByYear(subYear(parseYear(yearMonth))),
+      })}
+    >
+      {(data) => <CashFlowPage {...data} yearMonth={yearMonth} />}
     </Fetcher>
   );
 };
