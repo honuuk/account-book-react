@@ -20,7 +20,7 @@ interface Props {
 }
 
 export default function Edit({ type, yearMonth, currentMonth }: Props) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [opened, setOpened] = useState<boolean>(false);
   const typeLabel = typeLabelMap[type];
   const action = currentMonth && currentMonth[type] ? "수정" : "추가";
 
@@ -34,24 +34,29 @@ export default function Edit({ type, yearMonth, currentMonth }: Props) {
 
   return (
     <>
-      <Button onClick={() => setIsOpen(true)}>
+      <Button onClick={() => setOpened(true)}>
         <PlusCircledIcon className="mr-2 h-4 w-4" />
         {action}
       </Button>
-      <FormDialogContent
-        opened={isOpen}
-        onSubmit={save}
-        close={() => setIsOpen(false)}
-        title={`${typeLabel} ${action}하기`}
-        description={`${yearMonth}의 ${typeLabel}로 저장됩니다.`}
-        initialValues={{
-          amount: (currentMonth && currentMonth[type]) || 0,
-        }}
-      >
-        {(form) => (
-          <NumberField form={form} label={`${typeLabel} 금액`} name="amount" />
-        )}
-      </FormDialogContent>
+      {opened && (
+        <FormDialogContent
+          onSubmit={save}
+          close={() => setOpened(false)}
+          title={`${typeLabel} ${action}하기`}
+          description={`${yearMonth}의 ${typeLabel}로 저장됩니다.`}
+          initialValues={{
+            amount: (currentMonth && currentMonth[type]) || 0,
+          }}
+        >
+          {(form) => (
+            <NumberField
+              form={form}
+              label={`${typeLabel} 금액`}
+              name="amount"
+            />
+          )}
+        </FormDialogContent>
+      )}
     </>
   );
 }

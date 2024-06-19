@@ -21,7 +21,6 @@ import {
 interface Props<T extends Record<string, any>> {
   title: string;
   description?: string;
-  opened: boolean;
   close: () => void;
   validateSchema?: ZodObject<T>;
   initialValues: T;
@@ -34,7 +33,6 @@ export default function FormDialogContent<
 >({
   title,
   description,
-  opened,
   close,
   validateSchema,
   initialValues,
@@ -72,7 +70,7 @@ export default function FormDialogContent<
 
   return (
     <>
-      <Dialog open={opened} onOpenChange={close}>
+      <Dialog open onOpenChange={close}>
         <DialogContent className="sm:max-w-[425px]">
           <Form {...form}>
             <form
