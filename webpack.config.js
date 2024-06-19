@@ -41,18 +41,14 @@ module.exports = {
   },
 
   output: {
-    path: path.join(__dirname, "/dist"),
+    path: path.join(__dirname, "/build"),
     filename: "bundle.js",
   },
 
   plugins: [
-    new webpack.ProvidePlugin({
-      React: "react",
-    }),
     new HtmlWebpackPlugin({
       template: "./public/index.html",
     }),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.EnvironmentPlugin([
       "FIREBASE_API_KEY",
       "FIREBASE_AUTH_DOMAIN",
@@ -61,5 +57,8 @@ module.exports = {
       "FIREBASE_MESSAGING_SENDER_ID",
       "FIREBASE_APP_ID",
     ]),
+    ...(mode === "development"
+      ? [new webpack.HotModuleReplacementPlugin()]
+      : []),
   ],
 };

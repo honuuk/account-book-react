@@ -6,7 +6,8 @@
   "author": "honuuk <jewook3617@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack serve"
+    "dev": "webpack serve",
+    "build": "webpack build"
   },
   "dependencies": {
     "@firebase/firestore": "^4.5.1",
