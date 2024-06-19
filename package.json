@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "webpack serve",
-    "build": "yarn install && webpack build"
+    "build": "NODE_ENV=production yarn install && yarn install --only=dev && webpack build"
   },
   "dependencies": {
     "@firebase/firestore": "^4.5.1",
@@ -37,6 +37,8 @@
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.4.3",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -52,8 +54,6 @@
     "style-loader": "^3.3.4",
     "tailwindcss": "^3.4.3",
     "ts-loader": "^9.5.1",
-    "webpack": "^5.91.0",
-    "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4"
   }
 }
