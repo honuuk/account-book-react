@@ -4,7 +4,7 @@ const webpack = require("webpack");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const mode = process.env.NODE_ENV || "development";
+const mode = process.env.STAGE || "development";
 
 module.exports = {
   mode,
