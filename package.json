@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "webpack serve",
-    "build": "NODE_ENV=production yarn install && yarn install --only=dev && webpack build"
+    "build": "yarn install && yarn install --only=dev && webpack build"
   },
   "dependencies": {
     "@firebase/firestore": "^4.5.1",
