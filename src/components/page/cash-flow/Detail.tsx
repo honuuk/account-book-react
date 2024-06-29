@@ -74,7 +74,9 @@ const Detail: React.FC<Props> = ({
       <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
         <Card>
           <CardHeader>
-            <CardTitle>월별 {typeLabelMap[type]}</CardTitle>
+            <CardTitle className="text-lg sm:text-2xl">
+              월별 {typeLabelMap[type]}
+            </CardTitle>
           </CardHeader>
           <CardContent className="pl-2">
             <AnnualTrend type={type} currentYear={currentYear} />

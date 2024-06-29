@@ -34,9 +34,11 @@ const CashFlowPage: React.FC<Props> = ({
   const navigate = useNavigate();
 
   return (
-    <div className="flex-1 space-y-4 p-8 pt-6 max-w-4xl w-4/5 mx-auto">
+    <div className="flex-1 space-y-4 p-6 pt-6 max-w-4xl w-full mx-0 sm:w-4/5 sm:mx-auto sm:p-8">
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Cash Flow</h2>
+        <h2 className="text-xl font-bold tracking-tight sm:text-3xl">
+          Cash Flow
+        </h2>
         <MonthPicker
           currentYearMonth={yearMonth}
           onYearMonthChange={(date) => navigate(`/cashFlow?date=${date}`)}
@@ -45,12 +47,12 @@ const CashFlowPage: React.FC<Props> = ({
       <div className="space-between flex items-center">
         <Tabs
           value={type}
-          className="space-y-4"
+          className="space-y-4 w-full sm:w-fit"
           onValueChange={(value) => setType(value as CashFlowType)}
         >
-          <TabsList>
+          <TabsList className="w-full sm:w-fit">
             {TYPES.map((type) => (
-              <TabsTrigger key={type} value={type}>
+              <TabsTrigger className="flex-1 sm:w-20" key={type} value={type}>
                 {typeLabelMap[type]}
               </TabsTrigger>
             ))}

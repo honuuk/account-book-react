@@ -34,7 +34,7 @@ export default function Edit({ type, yearMonth, currentMonth }: Props) {
 
   return (
     <>
-      <Button onClick={() => setOpened(true)}>
+      <Button className="hidden sm:inline-flex" onClick={() => setOpened(true)}>
         <PlusCircledIcon className="mr-2 h-4 w-4" />
         {action}
       </Button>

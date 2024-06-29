@@ -14,10 +14,10 @@ interface Props {}
 const App: React.FC<Props> = () => {
   return (
     <BrowserRouter>
-      <div className="hidden flex-col md:flex">
+      <div className="flex-col md:flex">
         <div className="border-b">
           <div className="flex h-16 items-center px-4">
-            <MainNav className="mx-6" />
+            <MainNav className="sm:mx-6" />
           </div>
         </div>
         <QueryClientProvider client={new QueryClient()}>

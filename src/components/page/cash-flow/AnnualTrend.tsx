@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Bar,
   BarChart,
@@ -70,6 +70,15 @@ interface Props {
 }
 
 export default function AnnualTrend({ type, currentYear }: Props) {
+  const [width, setWidth] = useState<number>(window.innerWidth);
+
+  useEffect(() => {
+    const updateWindowWidth = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", updateWindowWidth);
+
+    return () => window.removeEventListener("resize", updateWindowWidth);
+  }, []);
+
   const annualData = useMemo(() => {
     if (type === "spending")
       return currentYear.reduce(
@@ -105,17 +114,20 @@ export default function AnnualTrend({ type, currentYear }: Props) {
         <XAxis
           dataKey="name"
           stroke="#888888"
-          fontSize={12}
+          fontSize={width > 640 ? 12 : 9}
           tickLine={false}
           axisLine={false}
         />
-        <YAxis
-          stroke="#888888"
-          fontSize={9}
-          tickLine={false}
-          axisLine={false}
-          tickFormatter={(value) => `${value.toLocaleString()}원`}
-        />
+        {width > 640 && (
+          <YAxis
+            stroke="#888888"
+            fontSize={9}
+            tickLine={false}
+            axisLine={false}
+            tickFormatter={(value) => `${value.toLocaleString()}원`}
+          />
+        )}
+
         <Bar
           dataKey={typeLabelMap[type]}
           fill="currentColor"
