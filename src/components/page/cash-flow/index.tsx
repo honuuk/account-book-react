@@ -41,7 +41,7 @@ const CashFlowPage: React.FC<Props> = ({
         </h2>
         <MonthPicker
           currentYearMonth={yearMonth}
-          onYearMonthChange={(date) => navigate(`/cashFlow?date=${date}`)}
+          onYearMonthChange={(date) => navigate(`/?date=${date}`)}
         />
       </div>
       <div className="space-between flex items-center">

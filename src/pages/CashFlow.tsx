@@ -16,8 +16,8 @@ const CashFlow = () => {
   useEffect(() => {
     if (yearMonth) return;
 
-    navigate(`/cashFlow?date=${getLastMonth(getYearMonth(new Date()))}`);
-  }, []);
+    navigate(`/?date=${getLastMonth(getYearMonth(new Date()))}`);
+  }, [yearMonth]);
 
   if (!yearMonth) return null;
 

@@ -6,19 +6,7 @@ import { Sheet, SheetContent, SheetHeader } from "../ui/sheet";
 const menus: { path: string; label: string }[] = [
   {
     path: "/",
-    label: "Overview",
-  },
-  {
-    path: "/assets",
-    label: "Assets",
-  },
-  {
-    path: "/cashFlow",
     label: "Cash Flow",
-  },
-  {
-    path: "/simulation",
-    label: "Simulation",
   },
 ];
 
