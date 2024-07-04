@@ -1,7 +1,9 @@
-const path = require("path");
+const WebpackPwaManifest = require("webpack-pwa-manifest");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 const dotenv = require("dotenv");
+const path = require("path");
+
 dotenv.config();
 
 const mode = process.env.STAGE || "development";
@@ -57,6 +59,19 @@ module.exports = {
       "FIREBASE_MESSAGING_SENDER_ID",
       "FIREBASE_APP_ID",
     ]),
+    new WebpackPwaManifest({
+      name: "가계부",
+      short_name: "가계부",
+      description: "우리집 가계부",
+      background_color: "#ffffff",
+      crossorigin: "use-credentials",
+      icons: [
+        {
+          src: path.resolve("./src/assets/icon.png"),
+          sizes: [96, 128, 192, 256, 384, 512], // multiple sizes
+        },
+      ],
+    }),
     ...(mode === "development"
       ? [new webpack.HotModuleReplacementPlugin()]
       : []),
