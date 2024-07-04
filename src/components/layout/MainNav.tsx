@@ -72,7 +72,10 @@ const MobileNav = () => {
       >
         <HamburgerIcon />
       </button>
-      <Link to="/" className="absolute left-[calc(50%-12px)] block md:hidden">
+      <Link
+        to="/"
+        className="absolute left-[calc(50%-12px)] !ml-0 block md:hidden"
+      >
         <MountainIcon />
       </Link>
       {opened && (
