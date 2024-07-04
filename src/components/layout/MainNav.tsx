@@ -84,6 +84,7 @@ const MobileNav = () => {
                   <Link
                     key={label}
                     to={path}
+                    onClick={() => setOpened(false)}
                     className={cn(
                       "text-sm font-medium transition-colors hover:text-primary",
                       selected(path)
