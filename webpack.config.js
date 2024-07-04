@@ -65,6 +65,8 @@ module.exports = {
       description: "우리집 가계부",
       background_color: "#ffffff",
       crossorigin: "use-credentials",
+      publicPath: "/",
+      start_url: ".",
       icons: [
         {
           src: path.resolve("./src/assets/icon.png"),
